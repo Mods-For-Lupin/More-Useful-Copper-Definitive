@@ -16,10 +16,10 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-          "com.cursee.examplemod.ExampleModFabric"
+          "com.cursee.more_useful_copper.MoreUsefulCopperFabric"
         ],
         "client": [
-          "com.cursee.examplemod.ExampleModClientFabric"
+          "com.cursee.more_useful_copper.MoreUsefulCopperClientFabric"
         ]
     },
     "mixins": [
