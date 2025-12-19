@@ -1,7 +1,7 @@
-package com.example.examplemod.platform;
+package com.cursee.more_useful_copper.platform;
 
-import com.example.examplemod.Constants;
-import com.example.examplemod.platform.services.IPlatformHelper;
+import com.cursee.more_useful_copper.Constants;
+import com.cursee.more_useful_copper.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 
