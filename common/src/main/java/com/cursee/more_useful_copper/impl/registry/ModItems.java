@@ -2,7 +2,9 @@ package com.cursee.more_useful_copper.impl.registry;
 
 import com.cursee.more_useful_copper.MoreUsefulCopper;
 import java.util.function.BiConsumer;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
@@ -18,7 +20,7 @@ public class ModItems {
 //    consumer.accept(MOD_STICK, MoreUsefulCopper.identifier("mod_stick"));
 
     // supply entity type like spawn egg?
-    COPPER_STATUE_SPIDER = new ArmorStandItem(new Properties());
+    COPPER_STATUE_SPIDER = new ArmorStandItem(new Properties().setId(ResourceKey.create(Registries.ITEM, MoreUsefulCopper.identifier("copper_statue_spider"))));
     consumer.accept(COPPER_STATUE_SPIDER, MoreUsefulCopper.identifier("copper_statue_spider"));
   }
 }
