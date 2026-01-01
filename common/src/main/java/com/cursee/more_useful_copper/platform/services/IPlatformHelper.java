@@ -63,9 +63,9 @@ public interface IPlatformHelper {
         return getGameDirectory().resolve("config");
     }
 
-    <T extends BlockEntity> BlockEntityType<T> createBlockEntityType(BiFunction<BlockPos, BlockState, T> constructor, Block... validBlocks);
+    <T extends BlockEntity> BlockEntityType.Builder<T> createBlockEntityType(BiFunction<BlockPos, BlockState, T> constructor, Block... validBlocks);
 
-    <T extends Entity> EntityType<T> createEntityType(BiFunction<EntityType<T>, Level, T> constructor, MobCategory mobCategory, ResourceLocation identifier);
+    <T extends Entity> EntityType.Builder<T> createEntityType(BiFunction<EntityType<T>, Level, T> constructor, MobCategory mobCategory);
 
     <T extends AbstractContainerMenu> MenuType<T> createMenuType(BiFunction<Integer, Inventory, T> constructor, FeatureFlagSet requiredFeatures);
 

@@ -49,15 +49,15 @@ public class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityType<T> createBlockEntityType(BiFunction<BlockPos, BlockState, T> constructor, Block... validBlocks) {
+    public <T extends BlockEntity> BlockEntityType.Builder<T> createBlockEntityType(BiFunction<BlockPos, BlockState, T> constructor, Block... validBlocks) {
 
-        return BlockEntityType.Builder.of(constructor::apply, validBlocks).build(null);
+        return BlockEntityType.Builder.of(constructor::apply, validBlocks);
     }
 
     @Override
-    public <T extends Entity> EntityType<T> createEntityType(BiFunction<EntityType<T>, Level, T> constructor, MobCategory mobCategory, ResourceLocation identifier) {
+    public <T extends Entity> EntityType.Builder<T> createEntityType(BiFunction<EntityType<T>, Level, T> constructor, MobCategory mobCategory) {
 
-        return EntityType.Builder.<T>of(constructor::apply, mobCategory).build(identifier.toString());
+        return EntityType.Builder.<T>of(constructor::apply, mobCategory);
     }
 
     @Override

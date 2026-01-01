@@ -17,6 +17,9 @@
     "entrypoints": {
         "main": [
             "com.cursee.more_useful_copper.MoreUsefulCopperFabric"
+        ],
+        "client": [
+            "com.cursee.more_useful_copper.MoreUsefulCopperClientFabric"
         ]
     },
     "mixins": [
