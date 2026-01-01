@@ -28,7 +28,11 @@ public class MoreUsefulCopperFabric implements ModInitializer {
     bind(BuiltInRegistries.CREATIVE_MODE_TAB, ModTabs::register);
 
     bind(BuiltInRegistries.ENTITY_TYPE, ModEntities::register);
+
     FabricDefaultAttributeRegistry.register(ModEntities.COPPER_STATUE_SPIDER, LivingEntity.createLivingAttributes()); // give em life or something
+    FabricDefaultAttributeRegistry.register(ModEntities.COPPER_STATUE_CREEPER, LivingEntity.createLivingAttributes());
+    FabricDefaultAttributeRegistry.register(ModEntities.COPPER_STATUE_SKELETON, LivingEntity.createLivingAttributes());
+    FabricDefaultAttributeRegistry.register(ModEntities.COPPER_STATUE_ZOMBIE, LivingEntity.createLivingAttributes());
 
     MoreUsefulCopper.init();
   }

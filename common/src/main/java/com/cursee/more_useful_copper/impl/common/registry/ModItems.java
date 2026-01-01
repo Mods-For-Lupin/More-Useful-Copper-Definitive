@@ -9,12 +9,21 @@ import net.minecraft.world.item.Item.Properties;
 
 public class ModItems {
 
-  public static Item COPPER_STATUE;
+  public static Item COPPER_STATUE_CREEPER;
+  public static Item COPPER_STATUE_SKELETON;
+  public static Item COPPER_STATUE_SPIDER;
+  public static Item COPPER_STATUE_ZOMBIE;
 
   public static void register(BiConsumer<Item, ResourceLocation> consumer) {
 
-    COPPER_STATUE = new CopperStatueItem(new Properties());
+    COPPER_STATUE_CREEPER = new CopperStatueItem(new Properties(), "creeper");
+    COPPER_STATUE_SKELETON = new CopperStatueItem(new Properties(), "skeleton");
+    COPPER_STATUE_SPIDER = new CopperStatueItem(new Properties(), "spider");
+    COPPER_STATUE_ZOMBIE = new CopperStatueItem(new Properties(), "zombie");
 
-    consumer.accept(COPPER_STATUE, MoreUsefulCopper.identifier("copper_statue"));
+    consumer.accept(COPPER_STATUE_CREEPER, MoreUsefulCopper.identifier("copper_statue_creeper"));
+    consumer.accept(COPPER_STATUE_SKELETON, MoreUsefulCopper.identifier("copper_statue_skeleton"));
+    consumer.accept(COPPER_STATUE_SPIDER, MoreUsefulCopper.identifier("copper_statue_spider"));
+    consumer.accept(COPPER_STATUE_ZOMBIE, MoreUsefulCopper.identifier("copper_statue_zombie"));
   }
 }

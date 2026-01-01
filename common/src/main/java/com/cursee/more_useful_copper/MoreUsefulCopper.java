@@ -10,7 +10,7 @@ public class MoreUsefulCopper {
   public static final Logger LOG = LoggerFactory.getLogger(Constants.MOD_NAME);
 
   public static void init() {
-
+    StatueVariantRegistry.registerAll();
   }
 
   public static ResourceLocation identifier(String path) {

@@ -1,6 +1,7 @@
 package com.cursee.more_useful_copper.impl.client.model.statue;
 
 import com.cursee.more_useful_copper.Constants;
+import com.cursee.more_useful_copper.impl.common.entity.CopperStatueSpider;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -15,7 +16,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
-public class CopperStatueSpiderModel<T extends Entity> extends EntityModel<T> {
+public class CopperStatueSpiderModel extends EntityModel<CopperStatueSpider> {
 
   // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
   public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Constants.MOD_ID, "spider"), "main");
@@ -99,7 +100,7 @@ public class CopperStatueSpiderModel<T extends Entity> extends EntityModel<T> {
   }
 
   @Override
-  public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+  public void setupAnim(CopperStatueSpider entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
   }
 

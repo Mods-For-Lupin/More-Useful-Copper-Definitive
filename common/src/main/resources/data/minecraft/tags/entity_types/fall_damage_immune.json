@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "more_useful_copper:copper_statue_creeper",
+    "more_useful_copper:copper_statue_skeleton",
+    "more_useful_copper:copper_statue_spider",
+    "more_useful_copper:copper_statue_zombie"
+  ]
+}

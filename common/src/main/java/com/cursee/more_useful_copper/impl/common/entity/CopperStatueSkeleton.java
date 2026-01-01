@@ -14,25 +14,25 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 // creeper, skeleton, spider, zombie variants
-public class CopperStatueSpider extends AbstractStatue implements StatueVariant {
+public class CopperStatueSkeleton extends AbstractStatue implements StatueVariant {
 
-  // private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(CopperStatueSpider.class, EntityDataSerializers.STRING);
+  // private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(CopperStatueSkeleton.class, EntityDataSerializers.STRING);
 
   private final String variant;
 
-  public CopperStatueSpider(EntityType<? extends AbstractStatue> entityType, Level level) {
+  public CopperStatueSkeleton(EntityType<? extends AbstractStatue> entityType, Level level) {
     super(entityType, level);
-    this.variant = "spider";
-    this.setVariant("spider");
+    this.variant = "skeleton";
+    this.setVariant("skeleton");
   }
 
   @Override
   protected Item getStatueItem() {
-    return ModItems.COPPER_STATUE_SPIDER;
+    return ModItems.COPPER_STATUE_SKELETON;
   }
 
-  public CopperStatueSpider(Level level, String variant) {
-    super(ModEntities.COPPER_STATUE_SPIDER, level);
+  public CopperStatueSkeleton(Level level, String variant) {
+    super(ModEntities.COPPER_STATUE_SKELETON, level);
     this.variant = variant;
   }
 
@@ -48,6 +48,6 @@ public class CopperStatueSpider extends AbstractStatue implements StatueVariant 
 
   @Override
   public ResourceLocation getVariantId() {
-    return MoreUsefulCopper.identifier("spider");
+    return MoreUsefulCopper.identifier("skeleton");
   }
 }
