@@ -63,6 +63,7 @@ public class CopperStatueItem extends Item {
 
           float f = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 22.5F) / 45.0F) * 45.0F;
           armorstand.moveTo(armorstand.getX(), armorstand.getY(), armorstand.getZ(), f, 0.0F);
+          armorstand.setYBodyRot(f); // ensure that rotation gets synced
           serverlevel.addFreshEntityWithPassengers(armorstand);
           level.playSound(null, armorstand.getX(), armorstand.getY(), armorstand.getZ(), SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
           armorstand.gameEvent(GameEvent.ENTITY_PLACE, context.getPlayer());

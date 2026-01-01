@@ -69,6 +69,16 @@ public abstract class AbstractStatue extends LivingEntity {
   }
 
   @Override
+  public boolean shouldShowName() {
+    return false;
+  }
+
+  @Override
+  public boolean hasCustomName() {
+    return false;
+  }
+
+  @Override
   public boolean isCustomNameVisible() {
     return false;
   }
