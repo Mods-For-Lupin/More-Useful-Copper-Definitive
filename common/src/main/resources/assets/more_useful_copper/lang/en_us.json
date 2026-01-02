@@ -1,0 +1,20 @@
+{
+  "itemGroup.moreUsefulCopper": "More Useful Copper",
+  "item.more_useful_copper.copper_statue_creeper": "Creeper Statue",
+  "item.more_useful_copper.copper_statue_skeleton": "Skeleton Statue",
+  "item.more_useful_copper.copper_statue_spider": "Spider Statue",
+  "item.more_useful_copper.copper_statue_zombie": "Zombie Statue",
+  "item.more_useful_copper.moisture_compass": "Moisture Compass",
+  "item.more_useful_copper.copper_bell": "Copper Bell",
+
+  "block.more_useful_copper.copper_statue_creeper": "Creeper Statue",
+  "block.more_useful_copper.copper_statue_skeleton": "Skeleton Statue",
+  "block.more_useful_copper.copper_statue_spider": "Spider Statue",
+  "block.more_useful_copper.copper_statue_zombie": "Zombie Statue",
+  "block.more_useful_copper.copper_bell": "Copper Bell",
+
+  "entity.more_useful_copper.copper_statue_creeper": "Creeper Statue",
+  "entity.more_useful_copper.copper_statue_skeleton": "Skeleton Statue",
+  "entity.more_useful_copper.copper_statue_spider": "Spider Statue",
+  "entity.more_useful_copper.copper_statue_zombie": "Zombie Statue"
+}
