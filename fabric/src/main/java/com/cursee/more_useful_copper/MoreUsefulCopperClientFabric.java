@@ -9,6 +9,7 @@ import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueCreep
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSkeletonRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSpiderRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueZombieRenderer;
+import com.cursee.more_useful_copper.impl.common.item.MoistureCompassItem;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,6 +19,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.D
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
@@ -26,6 +31,10 @@ public class MoreUsefulCopperClientFabric implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
     this.registerEntityModelsAndRenderers();
+
+    ItemProperties.register(ModItems.MOISTURE_COMPASS, new ResourceLocation("angle"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
+      return !MoistureCompassItem.isMoistureCompass(itemStack) ? CompassItem.getSpawnPosition(clientLevel) : MoistureCompassItem.getMoisturePosition(itemStack.getOrCreateTag());
+    }));
 
 //    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> new DynamicItemRenderer() {
 //
