@@ -1,0 +1,267 @@
+package com.cursee.more_useful_copper.impl.common.block;
+
+import com.cursee.more_useful_copper.impl.common.block.entity.BellBlockEntity;
+import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BellAttachType;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+public class BellBlock extends BaseEntityBlock {
+
+  public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+  public static final EnumProperty<BellAttachType> ATTACHMENT = BlockStateProperties.BELL_ATTACHMENT;
+  public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+  public static final int EVENT_BELL_RING = 1;
+  private static final VoxelShape NORTH_SOUTH_FLOOR_SHAPE = Block.box(0.0F, 0.0F, 4.0F, 16.0F, 16.0F, 12.0F);
+  private static final VoxelShape EAST_WEST_FLOOR_SHAPE = Block.box(4.0F, 0.0F, 0.0F, 12.0F, 16.0F, 16.0F);
+  private static final VoxelShape BELL_TOP_SHAPE = Block.box(5.0F, 6.0F, 5.0F, 11.0F, 13.0F, 11.0F);
+  private static final VoxelShape BELL_BOTTOM_SHAPE = Block.box(4.0F, 4.0F, 4.0F, 12.0F, 6.0F, 12.0F);
+  private static final VoxelShape BELL_SHAPE = Shapes.or(BELL_BOTTOM_SHAPE, BELL_TOP_SHAPE);
+  private static final VoxelShape NORTH_SOUTH_BETWEEN = Shapes.or(BELL_SHAPE, Block.box(7.0F, 13.0F, 0.0F, 9.0F, 15.0F, 16.0F));
+  private static final VoxelShape EAST_WEST_BETWEEN = Shapes.or(BELL_SHAPE, Block.box(0.0F, 13.0F, 7.0F, 16.0F, 15.0F, 9.0F));
+  private static final VoxelShape TO_WEST = Shapes.or(BELL_SHAPE, Block.box(0.0F, 13.0F, 7.0F, 13.0F, 15.0F, 9.0F));
+  private static final VoxelShape TO_EAST = Shapes.or(BELL_SHAPE, Block.box(3.0F, 13.0F, 7.0F, 16.0F, 15.0F, 9.0F));
+  private static final VoxelShape TO_NORTH = Shapes.or(BELL_SHAPE, Block.box(7.0F, 13.0F, 0.0F, 9.0F, 15.0F, 13.0F));
+  private static final VoxelShape TO_SOUTH = Shapes.or(BELL_SHAPE, Block.box(7.0F, 13.0F, 3.0F, 9.0F, 15.0F, 16.0F));
+  private static final VoxelShape CEILING_SHAPE = Shapes.or(BELL_SHAPE, Block.box(7.0F, 13.0F, 7.0F, 9.0F, 16.0F, 9.0F));
+
+  public BellBlock(BlockBehaviour.Properties properties) {
+    super(properties);
+    this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ATTACHMENT, BellAttachType.FLOOR).setValue(POWERED, false));
+  }
+
+  private static Direction getConnectedDirection(BlockState state) {
+    switch (state.getValue(ATTACHMENT)) {
+      case FLOOR -> {
+        return Direction.UP;
+      }
+      case CEILING -> {
+        return Direction.DOWN;
+      }
+      default -> {
+        return state.getValue(FACING).getOpposite();
+      }
+    }
+  }
+
+  public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    boolean flag = level.hasNeighborSignal(pos);
+    if (flag != state.getValue(POWERED)) {
+      if (flag) {
+        this.attemptToRing(level, pos, null);
+      }
+
+      level.setBlock(pos, state.setValue(POWERED, flag), 3);
+    }
+
+  }
+
+  public void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
+    Entity entity = projectile.getOwner();
+    Player player = entity instanceof Player ? (Player) entity : null;
+    this.onHit(level, state, hit, player, true);
+  }
+
+  public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    return this.onHit(level, state, hit, player, true) ? InteractionResult.sidedSuccess(level.isClientSide) : InteractionResult.PASS;
+  }
+
+  public boolean onHit(Level level, BlockState state, BlockHitResult result, Player player, boolean canRingBell) {
+    Direction direction = result.getDirection();
+    BlockPos blockpos = result.getBlockPos();
+    boolean flag = !canRingBell || this.isProperHit(state, direction, result.getLocation().y - (double) blockpos.getY());
+    if (flag) {
+      boolean flag1 = this.attemptToRing(player, level, blockpos, direction);
+      if (flag1 && player != null) {
+        player.awardStat(Stats.BELL_RING);
+      }
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private boolean isProperHit(BlockState pos, Direction p_direction, double distanceY) {
+    if (p_direction.getAxis() != Axis.Y && !(distanceY > (double) 0.8124F)) {
+      Direction direction = pos.getValue(FACING);
+      BellAttachType bellattachtype = pos.getValue(ATTACHMENT);
+      switch (bellattachtype) {
+        case FLOOR:
+          return direction.getAxis() == p_direction.getAxis();
+        case SINGLE_WALL:
+        case DOUBLE_WALL:
+          return direction.getAxis() != p_direction.getAxis();
+        case CEILING:
+          return true;
+        default:
+          return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  public boolean attemptToRing(Level level, BlockPos pos, Direction direction) {
+    return this.attemptToRing(null, level, pos, direction);
+  }
+
+  public boolean attemptToRing(Entity entity, Level level, BlockPos pos, Direction direction) {
+    BlockEntity blockentity = level.getBlockEntity(pos);
+    if (!level.isClientSide && blockentity instanceof BellBlockEntity) {
+      if (direction == null) {
+        direction = level.getBlockState(pos).getValue(FACING);
+      }
+
+      ((BellBlockEntity) blockentity).onHit(direction);
+      level.playSound(null, pos, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 2.0F, 1.0F);
+      level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private VoxelShape getVoxelShape(BlockState state) {
+    Direction direction = state.getValue(FACING);
+    BellAttachType bellattachtype = state.getValue(ATTACHMENT);
+    if (bellattachtype == BellAttachType.FLOOR) {
+      return direction != Direction.NORTH && direction != Direction.SOUTH ? EAST_WEST_FLOOR_SHAPE : NORTH_SOUTH_FLOOR_SHAPE;
+    } else if (bellattachtype == BellAttachType.CEILING) {
+      return CEILING_SHAPE;
+    } else if (bellattachtype != BellAttachType.DOUBLE_WALL) {
+      if (direction == Direction.NORTH) {
+        return TO_NORTH;
+      } else if (direction == Direction.SOUTH) {
+        return TO_SOUTH;
+      } else {
+        return direction == Direction.EAST ? TO_EAST : TO_WEST;
+      }
+    } else {
+      return direction != Direction.NORTH && direction != Direction.SOUTH ? EAST_WEST_BETWEEN : NORTH_SOUTH_BETWEEN;
+    }
+  }
+
+  public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    return this.getVoxelShape(state);
+  }
+
+  public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    return this.getVoxelShape(state);
+  }
+
+  /**
+   * @deprecated
+   */
+  public RenderShape getRenderShape(BlockState state) {
+    return RenderShape.MODEL;
+  }
+
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
+    Direction direction = context.getClickedFace();
+    BlockPos blockpos = context.getClickedPos();
+    Level level = context.getLevel();
+    Direction.Axis direction$axis = direction.getAxis();
+    if (direction$axis == Axis.Y) {
+      BlockState blockstate = this.defaultBlockState().setValue(ATTACHMENT, direction == Direction.DOWN ? BellAttachType.CEILING : BellAttachType.FLOOR)
+          .setValue(FACING, context.getHorizontalDirection());
+      if (blockstate.canSurvive(context.getLevel(), blockpos)) {
+        return blockstate;
+      }
+    } else {
+      boolean flag = direction$axis == Axis.X && level.getBlockState(blockpos.west()).isFaceSturdy(level, blockpos.west(), Direction.EAST) && level.getBlockState(blockpos.east())
+          .isFaceSturdy(level, blockpos.east(), Direction.WEST) || direction$axis == Axis.Z && level.getBlockState(blockpos.north()).isFaceSturdy(level, blockpos.north(), Direction.SOUTH)
+          && level.getBlockState(blockpos.south()).isFaceSturdy(level, blockpos.south(), Direction.NORTH);
+      BlockState blockstate1 = this.defaultBlockState().setValue(FACING, direction.getOpposite()).setValue(ATTACHMENT, flag ? BellAttachType.DOUBLE_WALL : BellAttachType.SINGLE_WALL);
+      if (blockstate1.canSurvive(context.getLevel(), context.getClickedPos())) {
+        return blockstate1;
+      }
+
+      boolean flag1 = level.getBlockState(blockpos.below()).isFaceSturdy(level, blockpos.below(), Direction.UP);
+      blockstate1 = blockstate1.setValue(ATTACHMENT, flag1 ? BellAttachType.FLOOR : BellAttachType.CEILING);
+      if (blockstate1.canSurvive(context.getLevel(), context.getClickedPos())) {
+        return blockstate1;
+      }
+    }
+
+    return null;
+  }
+
+  public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    BellAttachType bellattachtype = state.getValue(ATTACHMENT);
+    Direction direction = getConnectedDirection(state).getOpposite();
+    if (direction == facing && !state.canSurvive(level, currentPos) && bellattachtype != BellAttachType.DOUBLE_WALL) {
+      return Blocks.AIR.defaultBlockState();
+    } else {
+      if (facing.getAxis() == state.getValue(FACING).getAxis()) {
+        if (bellattachtype == BellAttachType.DOUBLE_WALL && !facingState.isFaceSturdy(level, facingPos, facing)) {
+          return state.setValue(ATTACHMENT, BellAttachType.SINGLE_WALL).setValue(FACING, facing.getOpposite());
+        }
+
+        if (bellattachtype == BellAttachType.SINGLE_WALL && direction.getOpposite() == facing && facingState.isFaceSturdy(level, facingPos, state.getValue(FACING))) {
+          return state.setValue(ATTACHMENT, BellAttachType.DOUBLE_WALL);
+        }
+      }
+
+      return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+    }
+  }
+
+  public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+    Direction direction = getConnectedDirection(state).getOpposite();
+    return direction == Direction.UP ? Block.canSupportCenter(level, pos.above(), Direction.DOWN) : FaceAttachedHorizontalDirectionalBlock.canAttach(level, pos, direction);
+  }
+
+  protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    builder.add(FACING, ATTACHMENT, POWERED);
+  }
+
+  public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    return new BellBlockEntity(pos, state);
+  }
+
+  public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+    return createTickerHelper(blockEntityType, ModBlockEntities.COPPER_BELL, level.isClientSide ? BellBlockEntity::clientTick : BellBlockEntity::serverTick);
+  }
+
+  public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
+    return false;
+  }
+}
+

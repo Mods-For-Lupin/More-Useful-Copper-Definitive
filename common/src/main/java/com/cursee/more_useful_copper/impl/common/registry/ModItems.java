@@ -5,6 +5,7 @@ import com.cursee.more_useful_copper.impl.common.item.CopperStatueItem;
 import com.cursee.more_useful_copper.impl.common.item.MoistureCompassItem;
 import java.util.function.BiConsumer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 
@@ -16,6 +17,7 @@ public class ModItems {
   public static Item COPPER_STATUE_ZOMBIE;
 
   public static Item MOISTURE_COMPASS;
+  public static Item COPPER_BELL;
 
   public static void register(BiConsumer<Item, ResourceLocation> consumer) {
 
@@ -25,6 +27,7 @@ public class ModItems {
     COPPER_STATUE_ZOMBIE = new CopperStatueItem(new Properties(), "zombie");
 
     MOISTURE_COMPASS = new MoistureCompassItem(new Properties());
+    COPPER_BELL = new BlockItem(ModBlocks.COPPER_BELL, new Properties());
 
     consumer.accept(COPPER_STATUE_CREEPER, MoreUsefulCopper.identifier("copper_statue_creeper"));
     consumer.accept(COPPER_STATUE_SKELETON, MoreUsefulCopper.identifier("copper_statue_skeleton"));
@@ -32,5 +35,6 @@ public class ModItems {
     consumer.accept(COPPER_STATUE_ZOMBIE, MoreUsefulCopper.identifier("copper_statue_zombie"));
 
     consumer.accept(MOISTURE_COMPASS, MoreUsefulCopper.identifier("moisture_compass"));
+    consumer.accept(COPPER_BELL, MoreUsefulCopper.identifier("copper_bell"));
   }
 }

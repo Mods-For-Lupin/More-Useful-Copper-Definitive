@@ -1,5 +1,6 @@
 package com.cursee.more_useful_copper;
 
+import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlocks;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModItems;
@@ -24,6 +25,7 @@ public class MoreUsefulCopperFabric implements ModInitializer {
 
     // bind before init
     bind(BuiltInRegistries.BLOCK, ModBlocks::register);
+    bind(BuiltInRegistries.BLOCK_ENTITY_TYPE, ModBlockEntities::register);
     bind(BuiltInRegistries.ITEM, ModItems::register);
     bind(BuiltInRegistries.CREATIVE_MODE_TAB, ModTabs::register);
 
