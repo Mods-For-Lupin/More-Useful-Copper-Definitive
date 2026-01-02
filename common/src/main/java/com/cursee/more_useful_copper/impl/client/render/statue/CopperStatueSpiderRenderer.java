@@ -2,6 +2,8 @@ package com.cursee.more_useful_copper.impl.client.render.statue;
 
 import com.cursee.more_useful_copper.MoreUsefulCopper;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSpiderModel;
+import com.cursee.more_useful_copper.impl.common.entity.AbstractOxidizingCopperStatue;
+import com.cursee.more_useful_copper.impl.common.entity.CopperStatueCreeper;
 import com.cursee.more_useful_copper.impl.common.entity.CopperStatueSpider;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -34,6 +36,12 @@ public class CopperStatueSpiderRenderer extends LivingEntityRenderer<CopperStatu
 
   @Override
   public ResourceLocation getTextureLocation(CopperStatueSpider statue) {
-    return MoreUsefulCopper.identifier("textures/entity/copper_statue/" + statue.getVariantId().getPath() + ".png");
+
+    // boolean waxed = statue.getEntityData().get(AbstractOxidizingCopperStatue.WAXED);
+    int oxiLevel = statue.getEntityData().get(AbstractOxidizingCopperStatue.OXIDIZATION_LEVEL);
+
+    final String oxiString = (oxiLevel == 0) ? "" : String.valueOf(oxiLevel);
+
+    return MoreUsefulCopper.identifier("textures/entity/copper_statue/" + statue.getVariantId().getPath() + oxiString + ".png");
   }
 }

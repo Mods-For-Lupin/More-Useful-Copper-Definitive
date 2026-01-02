@@ -2,6 +2,7 @@ package com.cursee.more_useful_copper.impl.client.render.statue;
 
 import com.cursee.more_useful_copper.MoreUsefulCopper;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueCreeperModel;
+import com.cursee.more_useful_copper.impl.common.entity.AbstractOxidizingCopperStatue;
 import com.cursee.more_useful_copper.impl.common.entity.CopperStatueCreeper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -47,6 +48,12 @@ public class CopperStatueCreeperRenderer extends LivingEntityRenderer<CopperStat
 
   @Override
   public ResourceLocation getTextureLocation(CopperStatueCreeper statue) {
-    return MoreUsefulCopper.identifier("textures/entity/copper_statue/" + statue.getVariantId().getPath() + ".png");
+
+    // boolean waxed = statue.getEntityData().get(AbstractOxidizingCopperStatue.WAXED);
+    int oxiLevel = statue.getEntityData().get(AbstractOxidizingCopperStatue.OXIDIZATION_LEVEL);
+
+    final String oxiString = (oxiLevel == 0) ? "" : String.valueOf(oxiLevel);
+
+    return MoreUsefulCopper.identifier("textures/entity/copper_statue/" + statue.getVariantId().getPath() + oxiString + ".png");
   }
 }

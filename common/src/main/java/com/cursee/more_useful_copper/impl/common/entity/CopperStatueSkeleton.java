@@ -14,7 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 // creeper, skeleton, spider, zombie variants
-public class CopperStatueSkeleton extends AbstractStatue implements StatueVariant {
+public class CopperStatueSkeleton extends AbstractOxidizingCopperStatue implements StatueVariant {
 
   // private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(CopperStatueSkeleton.class, EntityDataSerializers.STRING);
 
