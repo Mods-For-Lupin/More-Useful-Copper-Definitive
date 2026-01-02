@@ -3,6 +3,7 @@ package com.cursee.more_useful_copper.impl.common.item;
 import com.cursee.more_useful_copper.MoreUsefulCopper;
 import com.mojang.serialization.DataResult;
 import java.util.Optional;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -24,6 +25,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 public class MoistureCompassItem extends Item {
 
@@ -69,7 +72,17 @@ public class MoistureCompassItem extends Item {
   }
 
   public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected) {
-    if (!level.isClientSide && isMoistureCompass(stack)) {
+
+    if (!(entity instanceof Player)) {
+      return;
+    }
+
+    if (level.isClientSide()) {
+      return;
+    }
+
+    if (isMoistureCompass(stack)) {
+
       CompoundTag compoundtag = stack.getOrCreateTag();
       if (compoundtag.contains(TAG_MOISTURE_TRACKED) && !compoundtag.getBoolean(TAG_MOISTURE_TRACKED)) {
         return;
@@ -78,12 +91,47 @@ public class MoistureCompassItem extends Item {
       Optional<ResourceKey<Level>> optional = getMoistureDimension(compoundtag);
       if (optional.isPresent() && optional.get() == level.dimension() && compoundtag.contains(TAG_MOISTURE_POS)) {
         BlockPos blockpos = NbtUtils.readBlockPos(compoundtag.getCompound(TAG_MOISTURE_POS));
-//        if (!level.isInWorldBounds(blockpos) || !((ServerLevel)level).getPoiManager().existsAtPosition(PoiTypes.Moisture, blockpos)) {
-//          compoundtag.remove(TAG_MOISTURE_POS);
-//        }
-        if (!level.isInWorldBounds(blockpos) || !level.getBlockState(blockpos).is(Blocks.WATER)) {
+        if (!level.isInWorldBounds(blockpos)) {
           compoundtag.remove(TAG_MOISTURE_POS);
         }
+      }
+    }
+    else {
+
+      // every 2 seconds
+      if (level.getGameTime() % 40 == 0 && !stack.getOrCreateTag().contains(TAG_MOISTURE_POS)) {
+
+        System.out.println("searching for water!");
+
+        AABB box = new AABB(entity.blockPosition()).inflate(64, 64, 64);
+
+        searchLoop:
+        for (int x = (int) box.minX; x < box.maxX; x++) {
+          for (int y = (int) box.minY; y < box.maxY; y++) {
+
+            for (int z = (int) box.minZ; z < box.maxZ; z++) {
+
+              BlockPos pos = BlockPos.containing(x, y, z);
+
+              BlockState state = level.getBlockState(pos);
+              if (state.is(Blocks.WATER)) {
+
+                System.out.println("found water!");
+
+                // this.addMoistureTags(level.dimension(), pos, stack.getOrCreateTag());
+
+                CompoundTag compoundtag = stack.hasTag() ? stack.getTag().copy() : new CompoundTag();
+
+                this.addMoistureTags(level.dimension(), pos, compoundtag);
+
+                stack.setTag(compoundtag);
+
+                break searchLoop;
+              }
+            }
+          }
+        }
+
       }
     }
 
@@ -115,13 +163,13 @@ public class MoistureCompassItem extends Item {
 
         CompoundTag compoundtag = itemstack.hasTag() ? itemstack.getTag().copy() : new CompoundTag();
 
+        this.addMoistureTags(level.dimension(), blockpos, compoundtag);
+
         itemstack1.setTag(compoundtag);
 
         if (!player.getAbilities().instabuild) {
           itemstack.shrink(1);
         }
-
-        this.addMoistureTags(level.dimension(), blockpos, compoundtag);
 
         if (!player.getInventory().add(itemstack1)) {
           player.drop(itemstack1, false);
@@ -134,11 +182,13 @@ public class MoistureCompassItem extends Item {
 
   private void addMoistureTags(ResourceKey<Level> moistureDimension, BlockPos moisturePos, CompoundTag compoundTag) {
 
-    compoundTag.put(TAG_MOISTURE_POS, NbtUtils.writeBlockPos(moisturePos));
+
     DataResult<Tag> result = Level.RESOURCE_KEY_CODEC.encodeStart(NbtOps.INSTANCE, moistureDimension);
     result.resultOrPartial(MoreUsefulCopper.LOG::error).ifPresent((tag) -> compoundTag.put(TAG_MOISTURE_DIMENSION, tag));
 
     compoundTag.putBoolean(TAG_MOISTURE_TRACKED, true);
+
+    compoundTag.put(TAG_MOISTURE_POS, NbtUtils.writeBlockPos(moisturePos));
   }
 
   public String getDescriptionId(ItemStack stack) {
