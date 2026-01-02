@@ -4,19 +4,42 @@ import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueCreepe
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSkeletonModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSpiderModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueZombieModel;
+import com.cursee.more_useful_copper.impl.client.render.item.JustDireItemRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueCreeperRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSkeletonRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSpiderRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueZombieRenderer;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
+import com.cursee.more_useful_copper.impl.common.registry.ModItems;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 
 public class MoreUsefulCopperClientFabric implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
+    this.registerEntityModelsAndRenderers();
+
+//    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> new DynamicItemRenderer() {
+//
+//      @Override
+//      public void render(ItemStack stack, ItemDisplayContext mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+//        JustDireItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay);
+//      }
+//    });
+
+    // BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, JustDireItemRenderer.INSTANCE::renderByItem);
+    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> JustDireItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
+  }
+
+  private void registerEntityModelsAndRenderers() {
     EntityModelLayerRegistry.registerModelLayer(CopperStatueSpiderModel.LAYER_LOCATION, CopperStatueSpiderModel::createBodyLayer);
     EntityRendererRegistry.register(ModEntities.COPPER_STATUE_SPIDER, CopperStatueSpiderRenderer::new);
 

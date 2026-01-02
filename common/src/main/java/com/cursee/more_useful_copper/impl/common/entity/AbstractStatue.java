@@ -48,6 +48,8 @@ public abstract class AbstractStatue extends LivingEntity {
     this.handItems = NonNullList.withSize(1, ItemStack.EMPTY);
     this.armorItems = NonNullList.withSize(1, ItemStack.EMPTY);
 
+    this.blocksBuilding = true;
+
     this.setMaxUpStep(0.0f);
   }
 
