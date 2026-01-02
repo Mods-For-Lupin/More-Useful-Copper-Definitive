@@ -25,6 +25,11 @@ public class CopperStatueCreeperRenderer extends LivingEntityRenderer<CopperStat
   }
 
   @Override
+  protected boolean shouldShowName(CopperStatueCreeper entity) {
+    return false;
+  }
+
+  @Override
   public void render(CopperStatueCreeper entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
     super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
     // this.model.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutout(this.getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);

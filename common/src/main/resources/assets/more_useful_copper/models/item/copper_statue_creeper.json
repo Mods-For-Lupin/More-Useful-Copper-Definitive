@@ -1,0 +1,161 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench by Lorenzo Napolitano",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "more_useful_copper:block/creeper",
+		"particle": "more_useful_copper:block/creeper"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [4, 6, 6],
+			"to": [12, 18, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [1, 5, 3, 8], "texture": "#0"},
+				"east": {"uv": [0, 5, 1, 8], "texture": "#0"},
+				"south": {"uv": [4, 5, 6, 8], "texture": "#0"},
+				"west": {"uv": [3, 5, 4, 8], "texture": "#0"},
+				"up": {"uv": [3, 5, 1, 4], "texture": "#0"},
+				"down": {"uv": [5, 4, 3, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [4, 18, 4],
+			"to": [12, 26, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [2, 2, 4, 4], "texture": "#0"},
+				"east": {"uv": [0, 2, 2, 4], "texture": "#0"},
+				"south": {"uv": [6, 2, 8, 4], "texture": "#0"},
+				"west": {"uv": [4, 2, 6, 4], "texture": "#0"},
+				"up": {"uv": [4, 2, 2, 0], "texture": "#0"},
+				"down": {"uv": [6, 0, 4, 2], "texture": "#0"}
+			}
+		},
+		{
+			"name": "leg0",
+			"from": [8, 0, 10],
+			"to": [12, 6, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [7, 5, 8, 6.5], "texture": "#0"},
+				"east": {"uv": [6, 5, 7, 6.5], "texture": "#0"},
+				"south": {"uv": [9, 5, 10, 6.5], "texture": "#0"},
+				"west": {"uv": [8, 5, 9, 6.5], "texture": "#0"},
+				"up": {"uv": [8, 5, 7, 4], "texture": "#0"},
+				"down": {"uv": [9, 4, 8, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "leg1",
+			"from": [4, 0, 10],
+			"to": [8, 6, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [7, 5, 8, 6.5], "texture": "#0"},
+				"east": {"uv": [6, 5, 7, 6.5], "texture": "#0"},
+				"south": {"uv": [9, 5, 10, 6.5], "texture": "#0"},
+				"west": {"uv": [8, 5, 9, 6.5], "texture": "#0"},
+				"up": {"uv": [8, 5, 7, 4], "texture": "#0"},
+				"down": {"uv": [9, 4, 8, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "leg2",
+			"from": [8, 0, 2],
+			"to": [12, 6, 6],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [7, 5, 8, 6.5], "texture": "#0"},
+				"east": {"uv": [6, 5, 7, 6.5], "texture": "#0"},
+				"south": {"uv": [9, 5, 10, 6.5], "texture": "#0"},
+				"west": {"uv": [8, 5, 9, 6.5], "texture": "#0"},
+				"up": {"uv": [8, 5, 7, 4], "texture": "#0"},
+				"down": {"uv": [9, 4, 8, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "leg3",
+			"from": [4, 0, 2],
+			"to": [8, 6, 6],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [7, 5, 8, 6.5], "texture": "#0"},
+				"east": {"uv": [6, 5, 7, 6.5], "texture": "#0"},
+				"south": {"uv": [9, 5, 10, 6.5], "texture": "#0"},
+				"west": {"uv": [8, 5, 9, 6.5], "texture": "#0"},
+				"up": {"uv": [8, 5, 7, 4], "texture": "#0"},
+				"down": {"uv": [9, 4, 8, 5], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [65, -25, 25],
+			"translation": [0.5, 0.5, 0],
+			"scale": [0.2, 0.2, 0.2]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [65, -25, 25],
+			"translation": [0.5, 0.5, 0],
+			"scale": [0.2, 0.2, 0.2]
+		},
+		"firstperson_righthand": {
+			"rotation": [10, 10, 10],
+			"translation": [3, -2, -1],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [10, 10, 10],
+			"translation": [3, -2, -1],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 1, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [35, 135, 0],
+			"translation": [0, -2, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"head": {
+			"translation": [0, 3, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"fixed": {
+			"translation": [0, -2.5, 0.25],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"on_shelf": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 0.75, -2.25],
+			"scale": [1.1, 1.1, 1.1]
+		}
+	},
+	"groups": [
+		{
+			"name": "creeper_statue",
+			"origin": [8, 0, 8],
+			"color": 0,
+			"children": [
+				0,
+				{
+					"name": "head",
+					"origin": [8, 0, 8],
+					"color": 0,
+					"children": [1]
+				},
+				{
+					"name": "legs",
+					"origin": [8, 0, 8],
+					"color": 0,
+					"children": [2, 3, 4, 5]
+				}
+			]
+		}
+	]
+}

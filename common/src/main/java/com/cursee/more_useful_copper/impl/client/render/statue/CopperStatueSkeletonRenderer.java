@@ -2,6 +2,7 @@ package com.cursee.more_useful_copper.impl.client.render.statue;
 
 import com.cursee.more_useful_copper.MoreUsefulCopper;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSkeletonModel;
+import com.cursee.more_useful_copper.impl.common.entity.CopperStatueCreeper;
 import com.cursee.more_useful_copper.impl.common.entity.CopperStatueSkeleton;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,6 +20,11 @@ public class CopperStatueSkeletonRenderer extends LivingEntityRenderer<CopperSta
   public CopperStatueSkeletonRenderer(Context context) {
     super(context, new CopperStatueSkeletonModel(context.bakeLayer(CopperStatueSkeletonModel.LAYER_LOCATION)), 0.0f);
     // this.model = new CopperStatueSkeletonModel<>(context.bakeLayer(CopperStatueSkeletonModel.LAYER_LOCATION));
+  }
+
+  @Override
+  protected boolean shouldShowName(CopperStatueSkeleton entity) {
+    return false;
   }
 
   @Override
