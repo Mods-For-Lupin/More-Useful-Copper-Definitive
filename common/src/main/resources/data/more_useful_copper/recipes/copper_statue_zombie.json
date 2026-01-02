@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "/": {
+      "item": "minecraft:copper_ingot"
+    },
+    "_": {
+      "item": "minecraft:zombie_head"
+    }
+  },
+  "pattern": [
+    "///",
+    " / ",
+    "/_/"
+  ],
+  "result": {
+    "item": "more_useful_copper:copper_statue_zombie"
+  },
+  "show_notification": true
+}
