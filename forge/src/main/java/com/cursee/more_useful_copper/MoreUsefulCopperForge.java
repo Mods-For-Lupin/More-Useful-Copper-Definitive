@@ -1,5 +1,6 @@
 package com.cursee.more_useful_copper;
 
+import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlocks;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModItems;
@@ -11,9 +12,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.RegisterEvent;
 
 @Mod(Constants.MOD_ID)
@@ -27,12 +33,24 @@ public class MoreUsefulCopperForge {
 
     // bind before init
     bind(Registries.BLOCK, ModBlocks::register);
+    bind(Registries.BLOCK_ENTITY_TYPE, ModBlockEntities::register);
     bind(Registries.ITEM, ModItems::register);
     bind(Registries.CREATIVE_MODE_TAB, ModTabs::register);
 
     bind(Registries.ENTITY_TYPE, ModEntities::register);
 
+    EVENT_BUS.addListener((Consumer<EntityAttributeCreationEvent>) event -> {
+      event.put(ModEntities.COPPER_STATUE_SPIDER, LivingEntity.createLivingAttributes().build()); // give em life or something
+      event.put(ModEntities.COPPER_STATUE_CREEPER, LivingEntity.createLivingAttributes().build());
+      event.put(ModEntities.COPPER_STATUE_SKELETON, LivingEntity.createLivingAttributes().build());
+      event.put(ModEntities.COPPER_STATUE_ZOMBIE, LivingEntity.createLivingAttributes().build());
+    });
+
     MoreUsefulCopper.init();
+
+    if (FMLLoader.getDist() == Dist.CLIENT) {
+      new MoreUsefulCopperClientForge();
+    }
   }
 
   @Deprecated
