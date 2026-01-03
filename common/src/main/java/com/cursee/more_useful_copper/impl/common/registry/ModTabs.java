@@ -1,5 +1,7 @@
 package com.cursee.more_useful_copper.impl.common.registry;
 
+import com.cursee.more_useful_copper.Constants;
+import com.cursee.more_useful_copper.MoreUsefulCopper;
 import com.cursee.more_useful_copper.platform.Services;
 import java.util.function.BiConsumer;
 import net.minecraft.network.chat.Component;
@@ -28,6 +30,8 @@ public class ModTabs {
           output.accept(ModItems.COPPER_BELL);
         })
         .build();
+
+    consumer.accept(MORE_USEFUL_COPPER, MoreUsefulCopper.identifier(Constants.MOD_ID));
 
   }
 }

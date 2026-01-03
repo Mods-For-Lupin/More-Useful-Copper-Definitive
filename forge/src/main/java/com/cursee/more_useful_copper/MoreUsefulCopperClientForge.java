@@ -42,12 +42,13 @@ public class MoreUsefulCopperClientForge {
   }
 
   private void clientSetup(FMLClientSetupEvent event) {
+
+    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> JustDireItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
+
     event.enqueueWork(() -> {
       ItemProperties.register(ModItems.MOISTURE_COMPASS, new ResourceLocation("angle"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
         return !MoistureCompassItem.isMoistureCompass(itemStack) ? CompassItem.getSpawnPosition(clientLevel) : MoistureCompassItem.getMoisturePosition(itemStack.getOrCreateTag());
       }));
-
-      BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> JustDireItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
     });
   }
 
