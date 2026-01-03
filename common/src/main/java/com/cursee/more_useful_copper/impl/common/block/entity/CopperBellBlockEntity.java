@@ -88,12 +88,11 @@ public class CopperBellBlockEntity extends BlockEntity {
 
     // low chance every other tick to increase oxidization level
     if (level.random.nextFloat() <= 0.001 && level.getGameTime() % 2 == 0 && !state.getValue(CopperBellBlock.WAXED) && oxidization < 3) {
-      BlockState newState = ModBlocks.COPPER_BELL.defaultBlockState();
-      newState.setValue(CopperBellBlock.OXIDIZATION, oxidization + 1);
+      BlockState newState = state.setValue(CopperBellBlock.OXIDIZATION, oxidization + 1);
       level.setBlock(pos, newState, 18);
       level.setBlocksDirty(pos, state, newState);
 
-      System.out.println("oxidized bell");
+      // System.out.println("oxidized bell at " + pos.toShortString());
     }
 
     tick(level, pos, state, blockEntity, CopperBellBlockEntity::makeRaidersGlow);
