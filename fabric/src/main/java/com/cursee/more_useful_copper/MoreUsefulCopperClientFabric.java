@@ -4,7 +4,7 @@ import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueCreepe
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSkeletonModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSpiderModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueZombieModel;
-import com.cursee.more_useful_copper.impl.client.render.blockentity.BellRenderer;
+import com.cursee.more_useful_copper.impl.client.render.blockentity.CopperBellRenderer;
 import com.cursee.more_useful_copper.impl.client.render.item.MoistureCompassItemRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueCreeperRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSkeletonRenderer;
@@ -48,7 +48,7 @@ public class MoreUsefulCopperClientFabric implements ClientModInitializer {
 
   private void registerEntityModelsAndRenderers() {
 
-    BlockEntityRenderers.register(ModBlockEntities.COPPER_BELL, BellRenderer::new);
+    BlockEntityRenderers.register(ModBlockEntities.COPPER_BELL, CopperBellRenderer::new);
 
     EntityModelLayerRegistry.registerModelLayer(CopperStatueSpiderModel.LAYER_LOCATION, CopperStatueSpiderModel::createBodyLayer);
     EntityRendererRegistry.register(ModEntities.COPPER_STATUE_SPIDER, CopperStatueSpiderRenderer::new);

@@ -1,6 +1,6 @@
 package com.cursee.more_useful_copper.impl.common.block;
 
-import com.cursee.more_useful_copper.impl.common.block.entity.BellBlockEntity;
+import com.cursee.more_useful_copper.impl.common.block.entity.CopperBellBlockEntity;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
@@ -42,11 +43,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BellBlock extends BaseEntityBlock {
+public class CopperBellBlock extends BaseEntityBlock {
 
   public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
   public static final EnumProperty<BellAttachType> ATTACHMENT = BlockStateProperties.BELL_ATTACHMENT;
   public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+  public static final BooleanProperty WAXED = BooleanProperty.create("waxed");
+  public static final IntegerProperty OXIDIZATION = IntegerProperty.create("oxidization", 0, 3);
   public static final int EVENT_BELL_RING = 1;
   private static final VoxelShape NORTH_SOUTH_FLOOR_SHAPE = Block.box(0.0F, 0.0F, 4.0F, 16.0F, 16.0F, 12.0F);
   private static final VoxelShape EAST_WEST_FLOOR_SHAPE = Block.box(4.0F, 0.0F, 0.0F, 12.0F, 16.0F, 16.0F);
@@ -61,9 +64,9 @@ public class BellBlock extends BaseEntityBlock {
   private static final VoxelShape TO_SOUTH = Shapes.or(BELL_SHAPE, Block.box(7.0F, 13.0F, 3.0F, 9.0F, 15.0F, 16.0F));
   private static final VoxelShape CEILING_SHAPE = Shapes.or(BELL_SHAPE, Block.box(7.0F, 13.0F, 7.0F, 9.0F, 16.0F, 9.0F));
 
-  public BellBlock(BlockBehaviour.Properties properties) {
+  public CopperBellBlock(BlockBehaviour.Properties properties) {
     super(properties);
-    this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ATTACHMENT, BellAttachType.FLOOR).setValue(POWERED, false));
+    this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ATTACHMENT, BellAttachType.FLOOR).setValue(POWERED, false).setValue(WAXED, false).setValue(OXIDIZATION, 0));
   }
 
   private static Direction getConnectedDirection(BlockState state) {
@@ -144,12 +147,12 @@ public class BellBlock extends BaseEntityBlock {
 
   public boolean attemptToRing(Entity entity, Level level, BlockPos pos, Direction direction) {
     BlockEntity blockentity = level.getBlockEntity(pos);
-    if (!level.isClientSide && blockentity instanceof BellBlockEntity) {
+    if (!level.isClientSide && blockentity instanceof CopperBellBlockEntity) {
       if (direction == null) {
         direction = level.getBlockState(pos).getValue(FACING);
       }
 
-      ((BellBlockEntity) blockentity).onHit(direction);
+      ((CopperBellBlockEntity) blockentity).onHit(direction);
       level.playSound(null, pos, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 2.0F, 1.0F);
       level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
       return true;
@@ -249,15 +252,15 @@ public class BellBlock extends BaseEntityBlock {
   }
 
   protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-    builder.add(FACING, ATTACHMENT, POWERED);
+    builder.add(FACING, ATTACHMENT, POWERED, WAXED, OXIDIZATION);
   }
 
   public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-    return new BellBlockEntity(pos, state);
+    return new CopperBellBlockEntity(pos, state);
   }
 
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-    return createTickerHelper(blockEntityType, ModBlockEntities.COPPER_BELL, level.isClientSide ? BellBlockEntity::clientTick : BellBlockEntity::serverTick);
+    return createTickerHelper(blockEntityType, ModBlockEntities.COPPER_BELL, level.isClientSide ? CopperBellBlockEntity::clientTick : CopperBellBlockEntity::serverTick);
   }
 
   public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {

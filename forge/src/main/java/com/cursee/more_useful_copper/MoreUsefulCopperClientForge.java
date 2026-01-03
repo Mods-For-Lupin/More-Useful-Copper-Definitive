@@ -5,7 +5,7 @@ import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueCreepe
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSkeletonModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSpiderModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueZombieModel;
-import com.cursee.more_useful_copper.impl.client.render.blockentity.BellRenderer;
+import com.cursee.more_useful_copper.impl.client.render.blockentity.CopperBellRenderer;
 import com.cursee.more_useful_copper.impl.client.render.item.MoistureCompassItemRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueCreeperRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSkeletonRenderer;
@@ -58,7 +58,7 @@ public class MoreUsefulCopperClientForge {
 
   private void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 
-    event.registerBlockEntityRenderer(ModBlockEntities.COPPER_BELL, BellRenderer::new);
+    event.registerBlockEntityRenderer(ModBlockEntities.COPPER_BELL, CopperBellRenderer::new);
 
     event.registerEntityRenderer(ModEntities.COPPER_STATUE_SPIDER, CopperStatueSpiderRenderer::new);
     event.registerEntityRenderer(ModEntities.COPPER_STATUE_CREEPER, CopperStatueCreeperRenderer::new);

@@ -1,7 +1,7 @@
 package com.cursee.more_useful_copper.impl.common.registry;
 
 import com.cursee.more_useful_copper.MoreUsefulCopper;
-import com.cursee.more_useful_copper.impl.common.block.BellBlock;
+import com.cursee.more_useful_copper.impl.common.block.CopperBellBlock;
 import com.cursee.more_useful_copper.impl.common.block.CopperButtonBlock;
 import java.util.function.BiConsumer;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +23,7 @@ public class ModBlocks {
 
   public static void register(BiConsumer<Block, ResourceLocation> consumer) {
 
-    COPPER_BELL = new BellBlock(Properties.of().mapColor(MapColor.GOLD).forceSolidOn().requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.ANVIL).pushReaction(PushReaction.DESTROY));
+    COPPER_BELL = new CopperBellBlock(Properties.of().mapColor(MapColor.GOLD).forceSolidOn().requiresCorrectToolForDrops().strength(5.0F).sound(SoundType.ANVIL).pushReaction(PushReaction.DESTROY));
 
     COPPER_BUTTON = new CopperButtonBlock(Properties.of().randomTicks().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY), BlockSetType.IRON, 10, true);
     EXPOSED_COPPER_BUTTON = new CopperButtonBlock(Properties.of().randomTicks().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY), BlockSetType.IRON, 20, true);

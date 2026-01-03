@@ -1,6 +1,8 @@
 package com.cursee.more_useful_copper.impl.common.block.entity;
 
+import com.cursee.more_useful_copper.impl.common.block.CopperBellBlock;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
+import com.cursee.more_useful_copper.impl.common.registry.ModBlocks;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,12 +18,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.apache.commons.lang3.mutable.MutableInt;
 
-public class BellBlockEntity extends BlockEntity {
+public class CopperBellBlockEntity extends BlockEntity {
 
   private static final int DURATION = 50;
   private static final int GLOW_DURATION = 60;
@@ -39,11 +40,14 @@ public class BellBlockEntity extends BlockEntity {
   private boolean resonating;
   private int resonationTicks;
 
-  public BellBlockEntity(BlockPos pos, BlockState blockState) {
+  public int oxidization = 0;
+
+  public CopperBellBlockEntity(BlockPos pos, BlockState blockState) {
     super(ModBlockEntities.COPPER_BELL, pos, blockState);
   }
 
-  private static void tick(Level level, BlockPos pos, BlockState state, BellBlockEntity blockEntity, BellBlockEntity.ResonationEndAction resonationEndAction) {
+  private static void tick(Level level, BlockPos pos, BlockState state, CopperBellBlockEntity blockEntity, CopperBellBlockEntity.ResonationEndAction resonationEndAction) {
+
     if (blockEntity.shaking) {
       ++blockEntity.ticks;
     }
@@ -69,12 +73,30 @@ public class BellBlockEntity extends BlockEntity {
 
   }
 
-  public static void clientTick(Level level, BlockPos pos, BlockState state, BellBlockEntity blockEntity) {
-    tick(level, pos, state, blockEntity, BellBlockEntity::showBellParticles);
+  public static void clientTick(Level level, BlockPos pos, BlockState state, CopperBellBlockEntity blockEntity) {
+
+    blockEntity.oxidization = state.getValue(CopperBellBlock.OXIDIZATION);
+
+    tick(level, pos, state, blockEntity, CopperBellBlockEntity::showBellParticles);
   }
 
-  public static void serverTick(Level level, BlockPos pos, BlockState state, BellBlockEntity blockEntity) {
-    tick(level, pos, state, blockEntity, BellBlockEntity::makeRaidersGlow);
+  public static void serverTick(Level level, BlockPos pos, BlockState state, CopperBellBlockEntity blockEntity) {
+
+
+    int oxidization = state.getValue(CopperBellBlock.OXIDIZATION);
+    blockEntity.oxidization = oxidization;
+
+    // low chance every other tick to increase oxidization level
+    if (level.random.nextFloat() <= 0.001 && level.getGameTime() % 2 == 0 && !state.getValue(CopperBellBlock.WAXED) && oxidization < 3) {
+      BlockState newState = ModBlocks.COPPER_BELL.defaultBlockState();
+      newState.setValue(CopperBellBlock.OXIDIZATION, oxidization + 1);
+      level.setBlock(pos, newState, 18);
+      level.setBlocksDirty(pos, state, newState);
+
+      System.out.println("oxidized bell");
+    }
+
+    tick(level, pos, state, blockEntity, CopperBellBlockEntity::makeRaidersGlow);
   }
 
   private static boolean areRaidersNearby(BlockPos pos, List<LivingEntity> raiders) {
@@ -88,7 +110,7 @@ public class BellBlockEntity extends BlockEntity {
   }
 
   private static void makeRaidersGlow(Level level, BlockPos pos, List<LivingEntity> raiders) {
-    raiders.stream().filter((p_155219_) -> isRaiderWithinRange(pos, p_155219_)).forEach(BellBlockEntity::glow);
+    raiders.stream().filter((p_155219_) -> isRaiderWithinRange(pos, p_155219_)).forEach(CopperBellBlockEntity::glow);
   }
 
   private static void showBellParticles(Level level, BlockPos pos, List<LivingEntity> raiders) {

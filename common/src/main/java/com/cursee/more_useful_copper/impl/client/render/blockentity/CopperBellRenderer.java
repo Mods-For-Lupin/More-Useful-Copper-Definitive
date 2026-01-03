@@ -1,7 +1,7 @@
 package com.cursee.more_useful_copper.impl.client.render.blockentity;
 
 import com.cursee.more_useful_copper.MoreUsefulCopper;
-import com.cursee.more_useful_copper.impl.common.block.entity.BellBlockEntity;
+import com.cursee.more_useful_copper.impl.common.block.entity.CopperBellBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -21,14 +21,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class BellRenderer implements BlockEntityRenderer<BellBlockEntity> {
+public class CopperBellRenderer implements BlockEntityRenderer<CopperBellBlockEntity> {
 
   public static final Material BELL_RESOURCE_LOCATION = new Material(TextureAtlas.LOCATION_BLOCKS, MoreUsefulCopper.identifier("entity/bell/bell_body"));
   private static final String BELL_BODY = "bell_body";
 
+  public static final ResourceLocation COPPER_BELL_TEXTURE = MoreUsefulCopper.identifier("textures/entity/bell/bell_body.png");
+  public static final ResourceLocation EXPOSED_COPPER_BELL_TEXTURE = MoreUsefulCopper.identifier("textures/entity/bell/bell_body1.png");
+  public static final ResourceLocation WEATHERED_COPPER_BELL_TEXTURE = MoreUsefulCopper.identifier("textures/entity/bell/bell_body2.png");
+  public static final ResourceLocation OXIDIZED_COPPER_BELL_TEXTURE = MoreUsefulCopper.identifier("textures/entity/bell/bell_body3.png");
+
   private final ModelPart bellBody;
 
-  public BellRenderer(BlockEntityRendererProvider.Context context) {
+  public CopperBellRenderer(BlockEntityRendererProvider.Context context) {
     ModelPart modelpart = context.bakeLayer(ModelLayers.BELL);
     this.bellBody = modelpart.getChild(BELL_BODY);
   }
@@ -42,7 +47,7 @@ public class BellRenderer implements BlockEntityRenderer<BellBlockEntity> {
     return LayerDefinition.create(meshdefinition, 32, 32);
   }
 
-  public void render(BellBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+  public void render(CopperBellBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
     float f = (float) blockEntity.ticks + partialTick;
     float f1 = 0.0F;
     float f2 = 0.0F;
@@ -62,7 +67,18 @@ public class BellRenderer implements BlockEntityRenderer<BellBlockEntity> {
     this.bellBody.xRot = f1;
     this.bellBody.zRot = f2;
     // VertexConsumer vertexconsumer = BELL_RESOURCE_LOCATION.buffer(buffer, RenderType::entitySolid);
-    VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(MoreUsefulCopper.identifier("textures/entity/bell/bell_body.png")));
+
+    // SHOULD be synced via block state updating oxidization property
+    ResourceLocation texture = switch (blockEntity.oxidization) {
+
+      case 1 -> EXPOSED_COPPER_BELL_TEXTURE;
+      case 2 -> WEATHERED_COPPER_BELL_TEXTURE;
+      case 3 -> OXIDIZED_COPPER_BELL_TEXTURE;
+
+      default -> COPPER_BELL_TEXTURE;
+    };
+
+    VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(texture));
     this.bellBody.render(poseStack, consumer, packedLight, packedOverlay);
   }
 }
