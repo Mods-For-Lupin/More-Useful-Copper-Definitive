@@ -101,7 +101,7 @@ public class MoistureCompassItem extends Item {
       // every 2 seconds
       if (level.getGameTime() % 40 == 0 && !stack.getOrCreateTag().contains(TAG_MOISTURE_POS)) {
 
-        System.out.println("searching for water!");
+        // System.out.println("searching for water!");
 
         AABB box = new AABB(entity.blockPosition()).inflate(64, 64, 64);
 
@@ -116,7 +116,7 @@ public class MoistureCompassItem extends Item {
               BlockState state = level.getBlockState(pos);
               if (state.is(Blocks.WATER)) {
 
-                System.out.println("found water!");
+                // System.out.println("found water!");
 
                 // this.addMoistureTags(level.dimension(), pos, stack.getOrCreateTag());
 

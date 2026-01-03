@@ -76,52 +76,37 @@ public class CopperButtonBlock extends FaceAttachedHorizontalDirectionalBlock {
   @Override
   public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 
-    if (state.getValue(WAXED)) {
+    if (state.getValue(WAXED) || state.is(ModBlocks.OXIDIZED_COPPER_BUTTON)) {
       return;
     }
 
-    int oxidization = state.getValue(OXIDIZATION);
+    // int oxidization = state.getValue(OXIDIZATION);
 
     AttachFace face = state.getValue(FACE);
     Direction facing = state.getValue(FACING);
     boolean powered = state.getValue(POWERED);
 
-    BlockState newState;
+    BlockState newState = null;
 
-    if (oxidization == 0) {
-      newState = ModBlocks.EXPOSED_COPPER_BUTTON.defaultBlockState();
-    } else if (oxidization == 1) {
-      newState = ModBlocks.WEATHERED_COPPER_BUTTON.defaultBlockState();
-    } else {
-      newState = ModBlocks.OXIDIZED_COPPER_BUTTON.defaultBlockState();
+    if (state.is(ModBlocks.COPPER_BUTTON)) {
+      newState = ModBlocks.EXPOSED_COPPER_BUTTON.defaultBlockState().setValue(FACE, face);
+    } else if (state.is(ModBlocks.EXPOSED_COPPER_BUTTON)) {
+      newState = ModBlocks.WEATHERED_COPPER_BUTTON.defaultBlockState().setValue(FACE, face);
+    } else if (state.is(ModBlocks.WEATHERED_COPPER_BUTTON)) {
+      newState = ModBlocks.OXIDIZED_COPPER_BUTTON.defaultBlockState().setValue(FACE, face);
     }
 
-    System.out.println("setting face value " + face.getSerializedName());
+    if (newState == null) {
+      return;
+    }
+
+    // System.out.println("copying facing, face, powered values from original state.");
     newState.setValue(FACING, facing);
     newState.setValue(FACE, face);
     newState.setValue(POWERED, powered);
     level.setBlock(pos, newState, 18);
 
-//    var forced = level.getBlockState(pos);
-//    forced.setValue(FACE, face);
-//    level.setBlockAndUpdate(pos, forced);
-
-//    System.out.println("ticked on the server");
-//
-//    // if (!state.getValue(WAXED) && level.getRandom().nextFloat() <= 0.001 && state.getValue(OXIDIZATION) < 3) {
-//    if (!state.getValue(WAXED)) {
-//
-//      switch (state.getValue(OXIDIZATION)) {
-//        case 0 -> level.setBlockAndUpdate(pos, ModBlocks.EXPOSED_COPPER_BUTTON.defaultBlockState());
-//        case 1 -> level.setBlockAndUpdate(pos, ModBlocks.WEATHERED_COPPER_BUTTON.defaultBlockState());
-//        case 2 -> level.setBlockAndUpdate(pos, ModBlocks.OXIDIZED_COPPER_BUTTON.defaultBlockState());
-//      }
-//
-//      // level.setBlockAndUpdate(pos, Blocks.COBBLESTONE.defaultBlockState());
-////      state.setValue(OXIDIZATION, state.getValue(OXIDIZATION) + 1);
-////      level.setBlock(pos, state, Block.UPDATE_ALL);
-////      System.out.println("oxidized button");
-//    }
+    level.setBlocksDirty(pos, state, newState);
   }
 
   public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
