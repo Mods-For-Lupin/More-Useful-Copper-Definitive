@@ -28,6 +28,11 @@ public class ModTabs {
 
           output.accept(ModItems.MOISTURE_COMPASS);
           output.accept(ModItems.COPPER_BELL);
+
+          output.accept(ModItems.COPPER_BUTTON);
+          output.accept(ModItems.EXPOSED_COPPER_BUTTON);
+          output.accept(ModItems.WEATHERED_COPPER_BUTTON);
+          output.accept(ModItems.OXIDIZED_COPPER_BUTTON);
         })
         .build();
 
