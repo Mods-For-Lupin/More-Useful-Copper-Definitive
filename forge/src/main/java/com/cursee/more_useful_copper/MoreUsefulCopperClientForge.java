@@ -6,7 +6,7 @@ import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSkelet
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSpiderModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueZombieModel;
 import com.cursee.more_useful_copper.impl.client.render.blockentity.BellRenderer;
-import com.cursee.more_useful_copper.impl.client.render.item.JustDireItemRenderer;
+import com.cursee.more_useful_copper.impl.client.render.item.MoistureCompassItemRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueCreeperRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSkeletonRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSpiderRenderer;
@@ -15,19 +15,11 @@ import com.cursee.more_useful_copper.impl.common.item.MoistureCompassItem;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModItems;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CompassItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.ItemAttributeModifierEvent;
-import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class MoreUsefulCopperClientForge {
@@ -43,7 +35,7 @@ public class MoreUsefulCopperClientForge {
 
   private void clientSetup(FMLClientSetupEvent event) {
 
-    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> JustDireItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
+    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> MoistureCompassItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
 
     event.enqueueWork(() -> {
       ItemProperties.register(ModItems.MOISTURE_COMPASS, new ResourceLocation("angle"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {

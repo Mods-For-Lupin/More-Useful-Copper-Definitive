@@ -5,7 +5,7 @@ import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSkelet
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSpiderModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueZombieModel;
 import com.cursee.more_useful_copper.impl.client.render.blockentity.BellRenderer;
-import com.cursee.more_useful_copper.impl.client.render.item.JustDireItemRenderer;
+import com.cursee.more_useful_copper.impl.client.render.item.MoistureCompassItemRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueCreeperRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSkeletonRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSpiderRenderer;
@@ -14,21 +14,15 @@ import com.cursee.more_useful_copper.impl.common.item.MoistureCompassItem;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModItems;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.impl.client.rendering.BlockEntityRendererRegistryImpl;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CompassItem;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 
 public class MoreUsefulCopperClientFabric implements ClientModInitializer {
 
@@ -49,7 +43,7 @@ public class MoreUsefulCopperClientFabric implements ClientModInitializer {
 //    });
 
     // BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, JustDireItemRenderer.INSTANCE::renderByItem);
-    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> JustDireItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
+    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> MoistureCompassItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
   }
 
   private void registerEntityModelsAndRenderers() {

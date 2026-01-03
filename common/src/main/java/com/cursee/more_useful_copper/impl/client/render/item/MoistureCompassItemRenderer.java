@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -25,11 +24,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
-public class JustDireItemRenderer extends BlockEntityWithoutLevelRenderer {
+/// Adapted from JustDireThings [GitHub](https://github.com/Direwolf20-MC/JustDireThings)
+public class MoistureCompassItemRenderer extends BlockEntityWithoutLevelRenderer {
 
-  public static final JustDireItemRenderer INSTANCE = new JustDireItemRenderer();
+  public static final MoistureCompassItemRenderer INSTANCE = new MoistureCompassItemRenderer();
 
-  public JustDireItemRenderer() {
+  public MoistureCompassItemRenderer() {
     super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
   }
 
