@@ -13,6 +13,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -102,6 +104,21 @@ public class CopperBellBlock extends BaseEntityBlock {
   }
 
   public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+
+    ItemStack stack = player.getItemInHand(hand);
+
+    if (!level.isClientSide() && stack.is(Items.HONEYCOMB)) {
+
+      BlockState newState = state.setValue(CopperBellBlock.WAXED, true);
+      level.setBlock(pos, newState, 18);
+      level.setBlocksDirty(pos, state, newState);
+
+      if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+        player.setItemInHand(hand, stack);
+      }
+    }
+
     return this.onHit(level, state, hit, player, true) ? InteractionResult.sidedSuccess(level.isClientSide) : InteractionResult.PASS;
   }
 
