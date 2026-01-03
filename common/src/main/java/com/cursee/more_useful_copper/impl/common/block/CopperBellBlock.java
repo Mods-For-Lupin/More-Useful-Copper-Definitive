@@ -107,7 +107,7 @@ public class CopperBellBlock extends BaseEntityBlock {
 
     ItemStack stack = player.getItemInHand(hand);
 
-    if (!level.isClientSide() && stack.is(Items.HONEYCOMB)) {
+    if (stack.is(Items.HONEYCOMB)) {
 
       BlockState newState = state.setValue(CopperBellBlock.WAXED, true);
       level.setBlock(pos, newState, 18);
@@ -117,6 +117,7 @@ public class CopperBellBlock extends BaseEntityBlock {
         stack.shrink(1);
         player.setItemInHand(hand, stack);
       }
+      return InteractionResult.SUCCESS;
     }
 
     return this.onHit(level, state, hit, player, true) ? InteractionResult.sidedSuccess(level.isClientSide) : InteractionResult.PASS;

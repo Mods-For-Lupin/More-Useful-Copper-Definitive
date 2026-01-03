@@ -13,6 +13,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -138,6 +140,23 @@ public class CopperButtonBlock extends FaceAttachedHorizontalDirectionalBlock {
   }
 
   public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+
+    ItemStack stack = player.getItemInHand(hand);
+
+    if (player.isShiftKeyDown() && stack.is(Items.HONEYCOMB)) {
+
+      BlockState newState = state.setValue(CopperBellBlock.WAXED, true);
+      level.setBlock(pos, newState, 18);
+      level.setBlocksDirty(pos, state, newState);
+
+      if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+        player.setItemInHand(hand, stack);
+      }
+
+      return InteractionResult.SUCCESS;
+    }
+
     if (state.getValue(POWERED)) {
       return InteractionResult.CONSUME;
     } else {
