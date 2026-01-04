@@ -1,11 +1,13 @@
 package com.cursee.more_useful_copper;
 
 import com.cursee.more_useful_copper.impl.client.api_fabric.BuiltinItemRendererRegistry;
+import com.cursee.more_useful_copper.impl.client.model.boat.CopperBottomBoatModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueCreeperModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSkeletonModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueSpiderModel;
 import com.cursee.more_useful_copper.impl.client.model.statue.CopperStatueZombieModel;
 import com.cursee.more_useful_copper.impl.client.render.blockentity.CopperBellRenderer;
+import com.cursee.more_useful_copper.impl.client.render.boat.CopperBottomBoatRenderer;
 import com.cursee.more_useful_copper.impl.client.render.item.MoistureCompassItemRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueCreeperRenderer;
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSkeletonRenderer;
@@ -35,13 +37,17 @@ public class MoreUsefulCopperClientForge {
 
   private void clientSetup(FMLClientSetupEvent event) {
 
+    // CopperBottomBoatModel.createBodyModel();
+
     BuiltinItemRendererRegistry.INSTANCE.register(ModItems.COPPER_STATUE_SPIDER, (stack, mode, matrices, vertexConsumers, light, overlay) -> MoistureCompassItemRenderer.INSTANCE.renderByItem(stack, mode, matrices, vertexConsumers, light, overlay));
 
-    event.enqueueWork(() -> {
-      ItemProperties.register(ModItems.MOISTURE_COMPASS, new ResourceLocation("angle"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
-        return !MoistureCompassItem.isMoistureCompass(itemStack) ? CompassItem.getSpawnPosition(clientLevel) : MoistureCompassItem.getMoisturePosition(itemStack.getOrCreateTag());
-      }));
-    });
+    ItemProperties.register(ModItems.MOISTURE_COMPASS, new ResourceLocation("angle"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {
+      return !MoistureCompassItem.isMoistureCompass(itemStack) ? CompassItem.getSpawnPosition(clientLevel) : MoistureCompassItem.getMoisturePosition(itemStack.getOrCreateTag());
+    }));
+
+//    event.enqueueWork(() -> {
+//
+//    });
   }
 
 //  private void attachCapabilities(IClientItemExtensions event) {
@@ -50,6 +56,9 @@ public class MoreUsefulCopperClientForge {
 //  }
 
   private void registerEntityModels(EntityRenderersEvent.RegisterLayerDefinitions event) {
+
+    event.registerLayerDefinition(CopperBottomBoatModel.LAYER_LOCATION, CopperBottomBoatModel::createBodyModel);
+
     event.registerLayerDefinition(CopperStatueSpiderModel.LAYER_LOCATION, CopperStatueSpiderModel::createBodyLayer);
     event.registerLayerDefinition(CopperStatueCreeperModel.LAYER_LOCATION, CopperStatueCreeperModel::createBodyLayer);
     event.registerLayerDefinition(CopperStatueSkeletonModel.LAYER_LOCATION, CopperStatueSkeletonModel::createBodyLayer);
@@ -59,6 +68,8 @@ public class MoreUsefulCopperClientForge {
   private void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 
     event.registerBlockEntityRenderer(ModBlockEntities.COPPER_BELL, CopperBellRenderer::new);
+
+    event.registerEntityRenderer(ModEntities.COPPER_BOTTOM_BOAT, CopperBottomBoatRenderer::new);
 
     event.registerEntityRenderer(ModEntities.COPPER_STATUE_SPIDER, CopperStatueSpiderRenderer::new);
     event.registerEntityRenderer(ModEntities.COPPER_STATUE_CREEPER, CopperStatueCreeperRenderer::new);
