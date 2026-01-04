@@ -6,6 +6,7 @@ import com.cursee.more_useful_copper.impl.common.entity.CopperStatueCreeper;
 import com.cursee.more_useful_copper.impl.common.entity.CopperStatueSkeleton;
 import com.cursee.more_useful_copper.impl.common.entity.CopperStatueSpider;
 import com.cursee.more_useful_copper.impl.common.entity.CopperStatueZombie;
+import com.cursee.more_useful_copper.impl.common.entity.ThrownLightningBottle;
 import com.cursee.more_useful_copper.platform.Services;
 import java.util.function.BiConsumer;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +21,8 @@ public class ModEntities {
   public static EntityType<CopperStatueZombie> COPPER_STATUE_ZOMBIE;
 
   public static EntityType<CopperBottomBoat> COPPER_BOTTOM_BOAT;
+
+  public static EntityType<ThrownLightningBottle> LIGHTNING_BOTTLE;
 
   public static void register(BiConsumer<EntityType<?>, ResourceLocation> consumer) {
 
@@ -38,11 +41,15 @@ public class ModEntities {
     COPPER_BOTTOM_BOAT = Services.PLATFORM.<CopperBottomBoat>createEntityType(CopperBottomBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10)
         .build(MoreUsefulCopper.identifier("copper_bottom_boat").toString());
 
+    LIGHTNING_BOTTLE = Services.PLATFORM.<ThrownLightningBottle>createEntityType(ThrownLightningBottle::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10)
+        .build(MoreUsefulCopper.identifier("lightning_bottle").toString());
+
     consumer.accept(COPPER_STATUE_CREEPER, MoreUsefulCopper.identifier("copper_statue_creeper"));
     consumer.accept(COPPER_STATUE_SKELETON, MoreUsefulCopper.identifier("copper_statue_skeleton"));
     consumer.accept(COPPER_STATUE_SPIDER, MoreUsefulCopper.identifier("copper_statue_spider"));
     consumer.accept(COPPER_STATUE_ZOMBIE, MoreUsefulCopper.identifier("copper_statue_zombie"));
 
     consumer.accept(COPPER_BOTTOM_BOAT, MoreUsefulCopper.identifier("copper_bottom_boat"));
+    consumer.accept(LIGHTNING_BOTTLE, MoreUsefulCopper.identifier("lightning_bottle"));
   }
 }
