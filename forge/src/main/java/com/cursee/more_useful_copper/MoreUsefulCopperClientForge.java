@@ -17,6 +17,7 @@ import com.cursee.more_useful_copper.impl.common.item.MoistureCompassItem;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModItems;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -75,6 +76,8 @@ public class MoreUsefulCopperClientForge {
     event.registerEntityRenderer(ModEntities.COPPER_STATUE_CREEPER, CopperStatueCreeperRenderer::new);
     event.registerEntityRenderer(ModEntities.COPPER_STATUE_SKELETON, CopperStatueSkeletonRenderer::new);
     event.registerEntityRenderer(ModEntities.COPPER_STATUE_ZOMBIE, CopperStatueZombieRenderer::new);
+
+    event.registerEntityRenderer(ModEntities.LIGHTNING_BOTTLE, ThrownItemRenderer::new);
   }
 
 //  private void registerItemColorHandlers(ItemEvent event) {
