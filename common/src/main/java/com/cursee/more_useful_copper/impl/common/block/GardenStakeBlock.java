@@ -33,11 +33,8 @@ public class GardenStakeBlock extends Block {
   public void tick(BlockState selfState, ServerLevel level, BlockPos selfPos, RandomSource random) {
 
     if (!selfState.getValue(LIT)) {
-      System.out.println("ticked lit=false");
       return;
     }
-
-    System.out.println("ticked lit=true");
 
     AABB box = new AABB(selfPos).inflate(5, 3, 5);
     List<BlockPos> alreadyChecked = new ArrayList<>();
@@ -65,6 +62,10 @@ public class GardenStakeBlock extends Block {
   public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 
     if (!state.getValue(LIT)) {
+      return;
+    }
+
+    if (random.nextFloat() > 0.25f) {
       return;
     }
 

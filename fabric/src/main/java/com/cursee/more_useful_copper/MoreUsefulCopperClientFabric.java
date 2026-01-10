@@ -35,7 +35,7 @@ public class MoreUsefulCopperClientFabric implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
 
-    // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GARDEN_STAKE, RenderType.cutout());
+    BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GARDEN_STAKE, RenderType.cutout());
 
     this.registerEntityModelsAndRenderers();
 
