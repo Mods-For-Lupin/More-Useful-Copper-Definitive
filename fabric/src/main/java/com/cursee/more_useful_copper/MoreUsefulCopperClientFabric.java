@@ -14,12 +14,15 @@ import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueSpide
 import com.cursee.more_useful_copper.impl.client.render.statue.CopperStatueZombieRenderer;
 import com.cursee.more_useful_copper.impl.common.item.MoistureCompassItem;
 import com.cursee.more_useful_copper.impl.common.registry.ModBlockEntities;
+import com.cursee.more_useful_copper.impl.common.registry.ModBlocks;
 import com.cursee.more_useful_copper.impl.common.registry.ModEntities;
 import com.cursee.more_useful_copper.impl.common.registry.ModItems;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
@@ -31,6 +34,9 @@ public class MoreUsefulCopperClientFabric implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
+
+    // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GARDEN_STAKE, RenderType.cutout());
+
     this.registerEntityModelsAndRenderers();
 
     ItemProperties.register(ModItems.MOISTURE_COMPASS, new ResourceLocation("angle"), new CompassItemPropertyFunction((clientLevel, itemStack, entity) -> {

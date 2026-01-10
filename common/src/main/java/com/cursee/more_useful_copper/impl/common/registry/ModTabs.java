@@ -30,9 +30,8 @@ public class ModTabs {
           output.accept(ModItems.COPPER_BELL);
 
           output.accept(ModItems.COPPER_BUTTON);
-          output.accept(ModItems.EXPOSED_COPPER_BUTTON);
-          output.accept(ModItems.WEATHERED_COPPER_BUTTON);
-          output.accept(ModItems.OXIDIZED_COPPER_BUTTON);
+          output.accept(ModItems.LIGHTNING_BOTTLE);
+          output.accept(ModItems.GARDEN_STAKE);
         })
         .build();
 

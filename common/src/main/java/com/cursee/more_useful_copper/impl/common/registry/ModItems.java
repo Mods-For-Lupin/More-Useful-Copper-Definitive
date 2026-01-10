@@ -1,6 +1,7 @@
 package com.cursee.more_useful_copper.impl.common.registry;
 
 import com.cursee.more_useful_copper.MoreUsefulCopper;
+import com.cursee.more_useful_copper.impl.common.block.GardenStakeBlock;
 import com.cursee.more_useful_copper.impl.common.item.CopperStatueItem;
 import com.cursee.more_useful_copper.impl.common.item.LightningBottleItem;
 import com.cursee.more_useful_copper.impl.common.item.MoistureCompassItem;
@@ -25,7 +26,11 @@ public class ModItems {
   public static Item WEATHERED_COPPER_BUTTON;
   public static Item OXIDIZED_COPPER_BUTTON;
 
+  public static Item COPPER_POWERED_RAIL;
+
   public static Item LIGHTNING_BOTTLE;
+
+  public static Item GARDEN_STAKE;
 
   public static void register(BiConsumer<Item, ResourceLocation> consumer) {
 
@@ -42,7 +47,11 @@ public class ModItems {
     WEATHERED_COPPER_BUTTON = new BlockItem(ModBlocks.WEATHERED_COPPER_BUTTON, new Properties());
     OXIDIZED_COPPER_BUTTON = new BlockItem(ModBlocks.OXIDIZED_COPPER_BUTTON, new Properties());
 
+    COPPER_POWERED_RAIL = new BlockItem(ModBlocks.COPPER_POWERED_RAIL, new Properties());
+
     LIGHTNING_BOTTLE = new LightningBottleItem(new Properties().stacksTo(16));
+
+    GARDEN_STAKE = new BlockItem(ModBlocks.GARDEN_STAKE, new Properties());
 
     consumer.accept(COPPER_STATUE_CREEPER, MoreUsefulCopper.identifier("copper_statue_creeper"));
     consumer.accept(COPPER_STATUE_SKELETON, MoreUsefulCopper.identifier("copper_statue_skeleton"));
@@ -57,6 +66,10 @@ public class ModItems {
     consumer.accept(WEATHERED_COPPER_BUTTON, MoreUsefulCopper.identifier("weathered_copper_button"));
     consumer.accept(OXIDIZED_COPPER_BUTTON, MoreUsefulCopper.identifier("oxidized_copper_button"));
 
+    consumer.accept(COPPER_POWERED_RAIL, MoreUsefulCopper.identifier("copper_powered_rail"));
+
     consumer.accept(LIGHTNING_BOTTLE, MoreUsefulCopper.identifier("lightning_bottle"));
+
+    consumer.accept(GARDEN_STAKE, MoreUsefulCopper.identifier("garden_stake"));
   }
 }

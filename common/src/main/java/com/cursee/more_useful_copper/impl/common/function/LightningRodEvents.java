@@ -12,13 +12,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class LightningRodEvents {
 
-  private static final Supplier<ItemStack> CREATED_STACK = () -> new ItemStack(ModItems.LIGHTNING_BOTTLE);
+  private static final Supplier<ItemStack> FILLED_LIGHTNING_BOTTLE = () -> new ItemStack(ModItems.LIGHTNING_BOTTLE);
 
   public static void onLightningStrike(Level abstractLevel, BlockPos pos) {
 
     if (!(abstractLevel instanceof ServerLevel level)) {
       return;
     }
+
+    createFilledLightningBottle(level, pos);
+  }
+
+  private static void createFilledLightningBottle(ServerLevel level, BlockPos pos) {
+
 
     BlockEntity tile = level.getBlockEntity(pos.below());
 
@@ -37,7 +43,7 @@ public class LightningRodEvents {
         }
 
         if (stack.getCount() == 1) {
-          container.setItem(index, CREATED_STACK.get());
+          container.setItem(index, FILLED_LIGHTNING_BOTTLE.get());
           break; // only create one item
         } else {
 
@@ -49,7 +55,7 @@ public class LightningRodEvents {
           if (container.hasAnyMatching(check -> check == ItemStack.EMPTY)) {
             for (int emptyIndex = 0; emptyIndex < size; emptyIndex++) {
               if (container.getItem(emptyIndex).isEmpty()) {
-                container.setItem(emptyIndex, CREATED_STACK.get());
+                container.setItem(emptyIndex, FILLED_LIGHTNING_BOTTLE.get());
                 break; // only create one item
               }
             }
@@ -58,7 +64,7 @@ public class LightningRodEvents {
             var player = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 64.0D, true);
 
             if (player != null) {
-              player.addItem(CREATED_STACK.get());
+              player.addItem(FILLED_LIGHTNING_BOTTLE.get());
             }
 
             break; // only create one item
