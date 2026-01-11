@@ -58,6 +58,31 @@ public abstract class AbstractStatue extends LivingEntity {
     this.setPos(x, y, z);
   }
 
+  @Override
+  public boolean canCollideWith(Entity entity) {
+    return entity instanceof LivingEntity;
+  }
+
+  @Override
+  public boolean canBeCollidedWith() {
+    return true;
+  }
+
+  @Override
+  public void push(Entity entity) {
+
+  }
+
+  @Override
+  public void push(double x, double y, double z) {
+
+  }
+
+  @Override
+  public boolean isPushedByFluid() {
+    return false;
+  }
+
   public void handleEntityEvent(byte id) {
     if (id == EntityEvent.ARMORSTAND_WOBBLE) {
       if (this.level().isClientSide) {
