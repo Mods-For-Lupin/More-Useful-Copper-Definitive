@@ -9,6 +9,8 @@
   "item.more_useful_copper.copper_button": "Copper Button",
   "item.more_useful_copper.copper_powered_rail": "Copper Powered Rail",
   "item.more_useful_copper.lightning_bottle": "Lightning in a Bottle",
+  "item.more_useful_copper.garden_stake": "Garden Stake",
+  "item.more_useful_copper.copper_bottom_boat": "Copper-Bottom Boat",
 
   "block.more_useful_copper.copper_statue_creeper": "Creeper Statue",
   "block.more_useful_copper.copper_statue_skeleton": "Skeleton Statue",
@@ -16,6 +18,9 @@
   "block.more_useful_copper.copper_statue_zombie": "Zombie Statue",
   "block.more_useful_copper.copper_bell": "Copper Bell",
   "block.more_useful_copper.copper_button": "Copper Button",
+  "block.more_useful_copper.exposed_copper_button": "Exposed Copper Button",
+  "block.more_useful_copper.weathered_copper_button": "Weathered Copper Button",
+  "block.more_useful_copper.oxidized_copper_button": "Oxidized Copper Button",
   "block.more_useful_copper.copper_powered_rail": "Copper Powered Rail",
 
   "entity.more_useful_copper.copper_statue_creeper": "Creeper Statue",
