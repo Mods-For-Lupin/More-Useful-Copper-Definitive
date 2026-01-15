@@ -39,9 +39,14 @@ public class GardenStakeBlock extends Block {
     AABB box = new AABB(selfPos).inflate(5, 3, 5);
     List<BlockPos> alreadyChecked = new ArrayList<>();
 
+    iteration:
     for (double x = box.minX; x < box.maxX; x++) {
       for (double z = box.minZ; z < box.maxZ; z++) {
         for (double y = box.minY; y < box.maxY; y++) {
+
+          if (random.nextFloat() >= 0.005) {
+            continue iteration;
+          }
 
           BlockPos pos = BlockPos.containing(x, y, z);
           BlockState state = level.getBlockState(pos);
