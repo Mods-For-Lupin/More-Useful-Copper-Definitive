@@ -89,7 +89,7 @@ public abstract class AbstractOxidizingCopperStatue extends AbstractStatue {
 
     ServerLevel level = (ServerLevel) this.level();
 
-    if (level.getRandom().nextFloat() <= 0.005) {
+    if (level.getRandom().nextFloat() <= 0.0005) {
       if (!this.isWaxed()) {
         this.oxidize();
       }
